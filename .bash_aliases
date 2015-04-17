@@ -1,67 +1,72 @@
 #custom functions
 function ting() {
-    if [ "$#" == 2 ]; then
-        echo -ne "\033]0;png-$2\007";
-        ping $1;
-    else 
+    if [ "$#" -ne 2 ]; then
         echo 'ting needs a site and label!';
+        return -1;
     fi
+    echo -ne "\033]0;png-$2\007";
+    ping $1;
 }
 
 function xid() {
-    if [ $1 == '1' ] || [ $1 == '0' ]; then
-        xinput;
-        read -p 'enter id#: ' id;
-        xinput set-prop $id "Device Enabled" $1;
-    else
-        echo 'xid needs (1/0) arg!';
+    if [[ "$#" -ne 1 || $1 != 'on' && $1 != 'off' ]]; then
+        echo 'xid needs (on/off) arg!';
+        return -1;
     fi
+    if [ $1 == 'on' ]; then
+        mode=1;
+    else
+        mode=0;
+    fi
+    xinput;
+    read -p 'enter id#: ' id;
+    xinput set-prop $id "Device Enabled" $mode;
 }
 
 function vmstart() {
-    if [ $1 == 'gui' ] || [ $1 == 'headless' ] || [ $1 == 'sdl' ]; then
-        VBoxManage list vms;
-        read -p 'enter vmname: ' vmname;
-        if [ -z "$vmname" ]; then
-            echo 'vmstart needs a specific vm!';
-        else
-            VBoxManage startvm $vmname --type $1;
-        fi
-    else 
+    if [[ "$#" -ne 1 || $1 != 'gui' && $1 != 'headless' && $1 != 'sdl' ]]; then
         echo 'vmstart needs --type arg!';
+        return -1;
     fi
+    VBoxManage list vms;
+    read -p 'enter vmname: ' vmname;
+    if [ -z "$vmname" ]; then
+        echo 'vmstart needs a specific vm!';
+        return -1;
+    fi
+    VBoxManage startvm $vmname --type $1;
 }
 
 function vmcontrol() {
-    if [ $1 == 'poweroff' ] || [ $1 == 'reset' ] || [ $1 == 'resume' ] || [ $1 == 'pause' ] || [ $1 == 'savestate' ]; then
-        VBoxManage list runningvms;
-        read -p 'enter running vmname: ' vmname;
-        if [ -z "$vmname" ]; then
-            echo 'vmcontrol needs a specific running vm!';
-        else
-            VBoxManage controlvm $vmname $1;
-        fi
-    else
+    if [[ "$#" -ne 1 || $1 != 'poweroff' && $1 != 'reset' && $1 != 'resume' && $1 != 'pause' && $1 != 'savestate' ]]; then
         echo 'vmcontrol needs control action!';
+        return -1;
     fi
+    VBoxManage list runningvms;
+    read -p 'enter running vmname: ' vmname;
+    if [ -z "$vmname" ]; then
+        echo 'vmcontrol needs a specific running vm!';
+        return -1;
+    fi
+    VBoxManage controlvm $vmname $1;
 }
 
 function vimsync() {
-    if [ "$#" == 1 ]; then
-        rsync ~/.vimrc $1:~/ -auvz;
-        rsync ~/.vim/ $1:~/.vim/ -auvz;
-    else 
+    if [ "$#" -ne 1 ]; then
         echo 'vimsync needs complete remote';
+        return -1;
     fi
+    rsync ~/.vimrc $1:~/ -auvz;
+    rsync ~/.vim/ $1:~/.vim/ -auvz;
 }
 
 function bashsync() {
-    if [ "$#" == 1 ]; then
-        rsync ~/.bashrc $1:~/ -auvz;
-        rsync ~/.bash_aliases $1:~/ -auvz;
-    else
+    if [ "$#" -ne 1 ]; then
         echo 'bashsync needs complete remote';
+        return -1;
     fi
+    rsync ~/.bashrc $1:~/ -auvz;
+    rsync ~/.bash_aliases $1:~/ -auvz;
 }
 #custom  aliases
     #basic
