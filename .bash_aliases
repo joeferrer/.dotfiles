@@ -56,8 +56,8 @@ function vimsync() {
         echo 'vimsync needs complete remote';
         return -1;
     fi
-    rsync ~/.vimrc $1:~/ -auvz;
-    rsync ~/.vim/ $1:~/.vim/ -auvz;
+    rsync ~/.dotfiles/.vimrc $1:~/ -auvz;
+    rsync ~/.dotfiles/.vim/ $1:~/.vim/ -auvz;
 }
 
 function bashsync() {
@@ -65,8 +65,8 @@ function bashsync() {
         echo 'bashsync needs complete remote';
         return -1;
     fi
-    rsync ~/.bashrc $1:~/ -auvz;
-    rsync ~/.bash_aliases $1:~/ -auvz;
+    rsync ~/.dotfiles/.bashrc $1:~/ -auvz;
+    rsync ~/.dotfiles/.bash_aliases $1:~/ -auvz;
 }
 #custom  aliases
     #basic
