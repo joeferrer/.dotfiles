@@ -52,21 +52,65 @@ function vmcontrol() {
 }
 
 function vimsync() {
-    if [ "$#" -ne 1 ]; then
-        echo 'vimsync needs complete remote';
+    if [ "$#" -ne 2 ]; then
+        echo 'vimsync requires domain and remote!';
         return -1;
     fi
-    rsync ~/.dotfiles/.vimrc $1:~/ -auvz;
-    rsync ~/.dotfiles/.vim/ $1:~/.vim/ -auvz;
+
+    if [ "$1" == "fln" ]; then
+        rsync ~/.dotfiles/.vimrc dev@$2.syd1.fln-dev.net:~/ -auvz;
+        rsync ~/.dotfiles/.vim/ dev@$2.syd1.fln-dev.net:~/.vim/ -auvz;
+    else
+        rsync ~/.dotfiles/.vimrc $2:~/ -auvz;
+        rsync ~/.dotfiles/.vim/ $2:~/.vim/ -auvz;
+    fi
 }
 
 function bashsync() {
-    if [ "$#" -ne 1 ]; then
-        echo 'bashsync needs complete remote';
+    if [ "$#" -ne 2 ]; then
+        echo 'bashsync requires domain and remote!';
         return -1;
     fi
-    rsync ~/.dotfiles/.bashrc $1:~/ -auvz;
-    rsync ~/.dotfiles/.bash_aliases $1:~/ -auvz;
+
+    if [ "$1" == "fln" ]; then
+        rsync ~/.dotfiles/bashrc dev@$2.syd1.fln-dev.net:~/ -auvz;
+        rsync ~/.dotfiles/.bash_aliases dev@$2.syd1.fln-dev.net:~/ -auvz;
+    else
+        rsync ~/.dotfiles/.bashrc $2:~/ -auvz;
+        rsync ~/.dotfiles/.bash_aliases $2:~/ -auvz;
+    fi
+}
+
+function flnmycnf() {
+    if [ "$#" -ne 1 ]; then
+        echo 'mycnfsync requires remote!';
+        return -1;
+    fi
+    rsync ~/fln/.my.cnf dev@$1.syd1.fln-dev.net:~/ -auvz;
+}
+
+function flndev() {
+    if [ "$#" -ne 1 ]; then
+        echo 'flndev requires remote!';
+        return -1;
+    fi
+    ssh -o ConnectTimeout=5 dev@$1.syd1.fln-dev.net;
+}
+
+function flndir() {
+    if [ "$#" -ne 1 ]; then
+        echo 'flndir requires dir';
+        return -1;
+    fi
+    if [ $1 == 'sql' ]; then
+        cd /mnt/gaf/gaf-cvs/db/changes;
+    elif [ $1 == 'log' ]; then
+        cd /mnt/logs/;
+    elif [ $1 == 'build' ]; then
+        cd /mnt/gaf/gaf-cvs/scripts/build-assets/;
+    else
+        cd /mnt/gaf/gaf-cvs/public/;
+    fi
 }
 #custom  aliases
     #basic
@@ -86,3 +130,11 @@ function bashsync() {
     alias sshot="(gnome-screenshot --interactive &> /dev/null &)"
     alias kpx="(keepassx &> /dev/null &)"
     alias vbox="(virtualbox &> /dev/null &)"
+    alias lsql="echo -ne \"\033]0;lsql\007\"; mysql -u root -p"
+    alias rssrapp1="(rssowl &> /dev/null &)"
+    alias rssrapp2="(liferea &> /dev/null &)"
+    alias gsla="git shortlog --author"
+    alias ssrec="(simplescreenrecorder &> /dev/null &)"
+    alias charles="(~/Downloads/charles/bin/./charles &> /dev/null &)"
+    alias lpy="echo -ne \"\033]0;lpython\007\"; python"
+    alias lphp="echo -ne \"\033]0;lphp\007\"; php -a"

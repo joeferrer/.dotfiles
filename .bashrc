@@ -120,3 +120,10 @@ ref=$(git symbolic-ref HEAD 2> /dev/null) || return
 }
 PS1="\033]0;$HOSTNAME\007\[\033[0;32m\]\$(date +%H:%M) \h:\w \[\033[0;31m\]\$(parse_git_branch)\[\e[0;37m\]$ "
 
+export PATH="${PATH}:~/phabricator/arcanist/bin"
+
+source ~/phabricator/arcanist/resources/shell/bash-completion
+
+#Path Extension
+export PATH=$PATH:~/bin
+

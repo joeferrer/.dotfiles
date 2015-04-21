@@ -17,7 +17,3 @@ for FILE in $FILES; do
     ln -s $DIR/$FILE ~/$FILE
 done
 
-source ~/.bashrc
-source ~/.bash_aliases
-source ~/.vimrc
-
