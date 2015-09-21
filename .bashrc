@@ -118,5 +118,5 @@ function parse_git_branch {
 ref=$(git symbolic-ref HEAD 2> /dev/null) || return
     echo "("${ref#refs/heads/}")"
 }
-PS1="\033]0;$HOSTNAME\007\[\033[0;32m\]\$(date +%H:%M) \h:\w \[\033[0;31m\]\$(parse_git_branch)\[\e[0;37m\]$ "
+PS1="\[\033[0;32m\]\$(date +%H:%M) \h:\w \[\033[0;31m\]\$(parse_git_branch)\[\e[0;37m\]$ "
 

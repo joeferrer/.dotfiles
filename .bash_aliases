@@ -1,4 +1,11 @@
 #custom functions
+function tabname() {
+    if [ "$#" -ne 1 ]; then
+        echo 'tabname needs a name';
+        return -1;
+    fi
+    echo -ne "\033]0;$1\007";
+}
 function ting() {
     if [ "$#" -ne 2 ]; then
         echo 'ting needs a site and label!';
