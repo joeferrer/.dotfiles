@@ -83,7 +83,6 @@ function bashsync() {
     alias lhtop="(echo -ne \"\033]0;$HOSTNAME-htop\007\"; htop)"
     
     #system
-    alias mirror-off="xrandr --output  VGA1 --mode 1280x1024 --right-of LVDS1 --auto"
     
     #programs
     alias explorer="(nautilus --no-desktop --browser &> /dev/null &)"
