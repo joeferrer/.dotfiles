@@ -92,3 +92,4 @@ function bashsync() {
     alias sshot="(gnome-screenshot --interactive &> /dev/null &)"
     alias kpx="(keepassx &> /dev/null &)"
     alias vbox="(virtualbox &> /dev/null &)"
+    alias banshee="(banshee &> /dev/null &)"
